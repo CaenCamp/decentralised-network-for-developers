@@ -36,3 +36,19 @@ Next steps :
 * bosser les validations (tester par exemple la génératoin des json-schema des objets !)
 * faire un script pour importer les données existantes
 * faire un générateur de fixtures avec le bundle truc truc.
+
+Et puis pour le "lancement du projet"
+
+* Makefile
+* Linter et githook
+* Readme
+* Open-sourcing
+* tests
+* intégration continue
+
+## Problème de l'uuid
+
+1) Ajout d'un sql.init dans le repertoire docker et montage du script dans le docker-compose
+2) Ajout de la conf des uuid dans le schema.yaml
+
+It's working \o/

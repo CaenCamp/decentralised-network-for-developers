@@ -20,11 +20,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 class MediaObject
 {
     /**
-     * @var int|null
+     * @var string|null
      *
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="guid")
+     * @Assert\Uuid
      */
     private $id;
 
@@ -46,7 +47,7 @@ class MediaObject
      */
     private $embedUrl;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

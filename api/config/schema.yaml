@@ -1,5 +1,5 @@
-# id:
-#   generationStrategy: uuid
+id:
+  generationStrategy: uuid
 validator:
   assertType: true
 types:

@@ -20,11 +20,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CreativeWork
 {
     /**
-     * @var int|null
+     * @var string|null
      *
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="guid")
+     * @Assert\Uuid
      */
     private $id;
 
@@ -157,7 +158,7 @@ class CreativeWork
      */
     private $thumbnailUrl;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
