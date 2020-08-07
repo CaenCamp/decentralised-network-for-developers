@@ -69,10 +69,16 @@ types:
   # A speaker
   Person:
     properties:
+      additionalName: ~
+      familyName: ~
+      givenName: ~
+      honorificPrefix: ~
       description: ~
-      name: ~
+      disambiguatingDescription: ~
       image: ~
       url: ~
+      memberOf: { range: "Organization" }
+      performerIn: ~
   # A Organization, should be a sponsor or a speaker's organization
   Organization:
     properties:
