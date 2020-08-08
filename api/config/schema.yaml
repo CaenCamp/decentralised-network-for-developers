@@ -3,6 +3,31 @@ id:
 validator:
   assertType: true
 types:
+  PostalAddress:
+    properties:
+      addressCountry: { range: "Text" }
+      addressLocality: ~
+      postalCode: ~
+      streetAddress: ~
+  Place:
+    properties:
+      address: { range: "PostalAddress" }
+      hasMap: { range: "URL" }
+      latitude: { range: "Number" }
+      longitude: { range: "Number" }
+      maximumAttendeeCapacity: ~
+  Organization:
+    properties:
+      name: ~
+      description: ~
+      disambiguatingDescription: ~
+      image: ~
+      url: ~
+      location: { range: "Place" }
+      email: ~
+      employees:
+        cardinality: "(0..*)"
+        range: "Person"
   Person:
     properties:
       additionalName: ~
@@ -14,27 +39,3 @@ types:
       image: ~
       url: ~
       memberOf: { range: "Organization" }
-  Organization:
-    properties:
-      description: ~
-      name: ~
-      image: ~
-      url: ~
-      location: { range: "Place" }
-  Place:
-    properties:
-      description: ~
-      name: ~
-      image: ~
-      url: ~
-      address: { range: "PostalAddress" }
-      hasMap: { range: "URL" }
-      latitude: { range: "Number" }
-      longitude: { range: "Number" }
-      maximumAttendeeCapacity: ~
-  PostalAddress:
-    properties:
-      addressCountry: { range: "Text" }
-      addressLocality: ~
-      postalCode: ~
-      streetAddress: ~

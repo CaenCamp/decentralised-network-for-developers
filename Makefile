@@ -1,3 +1,5 @@
+.PHONY: cache-clear
+
 CURRENT_UID=$(shell id -u):$(shell id -g)
 export CURRENT_UID
 
@@ -21,3 +23,6 @@ generate-entity-from-schema: ## Generate entities from schema.yaml
 
 update-db-model-force: ## Tell Doctrine to sync the database tables structure with our new data model
 	docker-compose exec php bin/console doctrine:schema:update --force
+
+cache-clear: ## Clear Symfony Cache
+    docker-compose exec php bin/console cache:clear
