@@ -221,4 +221,17 @@ https://api-platform.com/docs/core/operations/#expose-a-model-without-any-routes
 
 Tout d'abord, il faut débrailler RA ! 
 
+Ensuite, si cela fonctionne bien pour tout ce qui est view (list et show), cela ne suffit pas pour le POST/PUT/PATCH ! On a des erreur du type 
+
+```
+api platform Nested documents are not allowed. Use IRIs instead.
+```
+
+Pour éviter cela, on doit repasser par les context de serialisation/de-serialisation, en ajoutant un 
+```
+denormalizationContext={"groups"={"organization"}}
+```
+aux entités Organisation et Place (note: on met le même groupe que pour les GET, puisqu'on veut du CRUD identique dans les deux cas !)
+
+Après, il suffit de dérouler de le view CREATE et EDIT de RA en descendant dans les json (exemple location.adress.postalCode)
 

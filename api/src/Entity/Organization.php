@@ -20,7 +20,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity
  * @ApiResource(
  *  iri="http://schema.org/Organization",
- *  normalizationContext={"groups"={"organization"}}
+ *  normalizationContext={"groups"={"organization"}},
+ *  denormalizationContext={"groups"={"organization"}}
  * )
  */
 class Organization
@@ -88,9 +89,9 @@ class Organization
     /**
      * @var Place|null the location of for example where the event is happening, an organization is located, or where an action takes place
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\Place")
+     * @ORM\OneToOne(targetEntity="App\Entity\Place", cascade={"persist"})
      * @ApiProperty(iri="http://schema.org/location")
-     * @Groups({"organization"})
+     * @Groups({"organization", "post"})
      */
     private $location;
 

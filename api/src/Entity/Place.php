@@ -19,6 +19,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *  iri="http://schema.org/Place",
  *  normalizationContext={"groups"={"organization"}},
+ *  denormalizationContext={"groups"={"organization"}},
  *  itemOperations={
  *     "get": {
  *         "method": "GET",
@@ -41,9 +42,9 @@ class Place
     /**
      * @var PostalAddress|null physical address of the item
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\PostalAddress")
+     * @ORM\ManyToOne(targetEntity="App\Entity\PostalAddress", cascade={"persist"})
      * @ApiProperty(iri="http://schema.org/address")
-     * @Groups({"organization"})
+     * @Groups({"organization", "post"})
      */
     private $address;
 
