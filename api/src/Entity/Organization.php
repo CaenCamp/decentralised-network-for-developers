@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * An organization such as a school, NGO, corporation, club, etc.
@@ -32,6 +33,7 @@ class Organization
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
      * @ORM\Column(type="guid")
+     * @ApiProperty(identifier=false)
      * @Assert\Uuid
      */
     private $id;
@@ -113,6 +115,13 @@ class Organization
      * @Groups({"organization"})
      */
     private $members;
+
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(length=250, unique=true)
+     * @ApiProperty(identifier=true)
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -207,5 +216,10 @@ class Organization
     public function getMembers(): Collection
     {
         return $this->members;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }
