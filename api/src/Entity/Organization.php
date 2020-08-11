@@ -106,14 +106,13 @@ class Organization
     private $email;
 
     /**
-     * @var Collection<Person>|null people working for this organization
+     * @var Collection<Person>|null a member of this organization
      *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Person")
-     * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
-     * @ApiProperty(iri="http://schema.org/employees")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Person", mappedBy="memberOf")
+     * @ApiProperty(iri="http://schema.org/members")
      * @Groups({"organization"})
      */
-    private $employees;
+    private $members;
 
     public function __construct()
     {
@@ -195,18 +194,18 @@ class Organization
         return $this->email;
     }
 
-    public function addEmployee(Person $employee): void
+    public function addMember(Person $member): void
     {
-        $this->employees[] = $employee;
+        $this->members[] = $member;
     }
 
-    public function removeEmployee(Person $employee): void
+    public function removeMember(Person $member): void
     {
-        $this->employees->removeElement($employee);
+        $this->members->removeElement($member);
     }
 
-    public function getEmployees(): Collection
+    public function getMembers(): Collection
     {
-        return $this->employees;
+        return $this->members;
     }
 }

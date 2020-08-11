@@ -6,6 +6,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -28,15 +30,6 @@ class Person
      * @Assert\Uuid
      */
     private $id;
-
-    /**
-     * @var string|null an additional name for a Person, can be used for a middle name
-     *
-     * @ORM\Column(type="text", nullable=true)
-     * @ApiProperty(iri="http://schema.org/additionalName")
-     * @Assert\Type(type="string")
-     */
-    private $additionalName;
 
     /**
      * @var string|null Family name. In the U.S., the last name of an Person. This can be used along with givenName instead of the name property.
@@ -64,6 +57,14 @@ class Person
      * @Assert\Type(type="string")
      */
     private $honorificPrefix;
+
+    /**
+     * @var string|null the name of the item
+     *
+     * @ApiProperty(iri="http://schema.org/name")
+     * @Assert\Type(type="string")
+     */
+    private $name;
 
     /**
      * @var string|null a description of the item
@@ -102,26 +103,21 @@ class Person
     private $url;
 
     /**
-     * @var Organization|null an Organization (or ProgramMembership) to which this Person or Organization belongs
+     * @var Collection<Organization>|null an Organization (or ProgramMembership) to which this Person or Organization belongs
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Organization")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Organization", inversedBy="members")
      * @ApiProperty(iri="http://schema.org/memberOf")
      */
     private $memberOf;
 
+    public function __construct()
+    {
+        $this->memberOf = new ArrayCollection();
+    }
+
     public function getId(): ?string
     {
         return $this->id;
-    }
-
-    public function setAdditionalName(?string $additionalName): void
-    {
-        $this->additionalName = $additionalName;
-    }
-
-    public function getAdditionalName(): ?string
-    {
-        return $this->additionalName;
     }
 
     public function setFamilyName(?string $familyName): void
@@ -152,6 +148,16 @@ class Person
     public function getHonorificPrefix(): ?string
     {
         return $this->honorificPrefix;
+    }
+
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->givenName . ' ' . $this->familyName;
     }
 
     public function setDescription(?string $description): void
@@ -194,12 +200,17 @@ class Person
         return $this->url;
     }
 
-    public function setMemberOf(?Organization $memberOf): void
+    public function addMemberOf(Organization $memberOf): void
     {
-        $this->memberOf = $memberOf;
+        $this->memberOf[] = $memberOf;
     }
 
-    public function getMemberOf(): ?Organization
+    public function removeMemberOf(Organization $memberOf): void
+    {
+        $this->memberOf->removeElement($memberOf);
+    }
+
+    public function getMemberOf(): Collection
     {
         return $this->memberOf;
     }

@@ -25,17 +25,19 @@ types:
       url: ~
       location: { range: "Place" }
       email: ~
-      employees:
-        cardinality: "(0..*)"
+      members:
+        cardinality: "(*..*)"
         range: "Person"
   Person:
     properties:
-      additionalName: ~
       familyName: ~
       givenName: ~
       honorificPrefix: ~
+      name: ~
       description: ~
       disambiguatingDescription: ~
       image: ~
       url: ~
-      memberOf: { range: "Organization" }
+      memberOf:
+        cardinality: "(*..*)"
+        range: "Organization"

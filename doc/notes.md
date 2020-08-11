@@ -239,8 +239,9 @@ Après, il suffit de dérouler de le view CREATE et EDIT de RA en descendant dan
 Donc c'est chouette, on a une Doc d'API comme on veut, et une interface d'admin adhoc.
 
 Dans les ptit truc à faire :
-* inversion relation people/organization
+* [DONE] inversion relation people/organization
 * utiliser un slug comme identifier
+* Ajouter des filtres et du tri !!!!
 * afficher un name pour people baser sur les 3 autres (test unit)
 * travailler la validation
 * générer les json-schema pour validation front
@@ -261,3 +262,6 @@ Et un jour :
 * composant RA pour une Place/Address
 * composant RA pour un CreativeWork
 
+### 11/08 Reprise du modele de la liason boite/person
+
+!!! ATTENTION : Lorsque l'on regenere les entitée depuis le schema, on efface les tweek qu'on a ajouter :( Beurk
