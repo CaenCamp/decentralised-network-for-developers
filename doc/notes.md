@@ -235,3 +235,29 @@ aux entités Organisation et Place (note: on met le même groupe que pour les GE
 
 Après, il suffit de dérouler de le view CREATE et EDIT de RA en descendant dans les json (exemple location.adress.postalCode)
 
+
+Donc c'est chouette, on a une Doc d'API comme on veut, et une interface d'admin adhoc.
+
+Dans les ptit truc à faire :
+* inversion relation people/organization
+* utiliser un slug comme identifier
+* afficher un name pour people baser sur les 3 autres (test unit)
+* travailler la validation
+* générer les json-schema pour validation front
+* afficher la data formater avec du microdata
+* authentification JWT
+
+Ensuite : 
+* Linter
+* Tests
+* CI
+* Déploiement
+* graphQL
+* Vulcain
+* Mercure
+
+Et un jour :
+* RA de base
+* composant RA pour une Place/Address
+* composant RA pour un CreativeWork
+
