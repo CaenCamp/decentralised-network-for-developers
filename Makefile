@@ -18,6 +18,11 @@ stop: ## Stop dev env
 logs: ## Display logs in development from Docker
 	docker-compose logs -f
 
+connect-php: ## Start cli session in the php container
+	docker-compose exec php ash 
+connect-admin: ## Start cli session in the react-admin container
+	docker-compose exec admin ash 
+
 generate-entity-from-schema: ## Generate entities from schema.yaml
 	docker-compose exec php vendor/bin/schema generate-types src/ config/schema.yaml
 

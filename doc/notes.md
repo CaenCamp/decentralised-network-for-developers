@@ -240,11 +240,11 @@ Donc c'est chouette, on a une Doc d'API comme on veut, et une interface d'admin 
 
 Dans les ptit truc à faire :
 * [DONE] inversion relation people/organization
-* utiliser un slug comme identifier
-* Ajouter des filtres et du tri !!!!
-* afficher un name pour people baser sur les 3 autres (test unit)
+* [DONE ]utiliser un slug comme identifier
 * travailler la validation
 * générer les json-schema pour validation front
+* Ajouter des filtres et du tri !!!!
+* afficher un name pour people baser sur les 3 autres (test unit)
 * afficher la data formater avec du microdata
 * authentification JWT
 
@@ -265,3 +265,12 @@ Et un jour :
 ### 11/08 Reprise du modele de la liason boite/person
 
 !!! ATTENTION : Lorsque l'on regenere les entitée depuis le schema, on efface les tweek qu'on a ajouter :( Beurk
+
+Donc voir la doc Doctrine pour les relation manyToMany !
+
+### Slug comme identifiant
+
+Encore une fois, de la conf
+https://github.com/Atlantic18/DoctrineExtensions
+https://symfony.com/doc/master/bundles/StofDoctrineExtensionsBundle/index.html
+https://api-platform.com/docs/core/identifiers/#changing-identifier-in-a-doctrine-entity

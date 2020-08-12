@@ -39,11 +39,12 @@ class Organization
     private $id;
 
     /**
-     * @var string|null the name of the item
+     * @var string the name of the item
      *
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="text")
      * @ApiProperty(iri="http://schema.org/name")
      * @Assert\Type(type="string")
+     * @Assert\NotBlank
      * @Groups({"organization"})
      */
     private $name;
@@ -61,15 +62,16 @@ class Organization
     /**
      * @var string|null A sub property of description. A short description of the item used to disambiguate from other, similar items. Information from other properties (in particular, name) may be necessary for the description to be useful for disambiguation.
      *
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="text")
      * @ApiProperty(iri="http://schema.org/disambiguatingDescription")
      * @Assert\Type(type="string")
+     * @Assert\NotBlank
      * @Groups({"organization"})
      */
     private $disambiguatingDescription;
 
     /**
-     * @var string|null An image of the item. This can be a \[\[URL\]\] or a fully described \[\[ImageObject\]\].
+     * @var string|null An image of the item. This is a \[\[URL\]\].
      *
      * @ORM\Column(type="text", nullable=true)
      * @ApiProperty(iri="http://schema.org/image")

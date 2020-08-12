@@ -34,37 +34,29 @@ class Person
     private $id;
 
     /**
-     * @var string|null Family name. In the U.S., the last name of an Person. This can be used along with givenName instead of the name property.
+     * @var string Family name. In the U.S., the last name of an Person. This can be used along with givenName instead of the name property.
      *
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="text")
      * @ApiProperty(iri="http://schema.org/familyName")
      * @Assert\Type(type="string")
+     * @Assert\NotBlank
      */
     private $familyName;
 
     /**
-     * @var string|null Given name. In the U.S., the first name of a Person. This can be used along with familyName instead of the name property.
+     * @var string Given name. In the U.S., the first name of a Person. This can be used along with familyName instead of the name property.
      *
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="text")
      * @ApiProperty(iri="http://schema.org/givenName")
      * @Assert\Type(type="string")
+     * @Assert\NotBlank
      */
     private $givenName;
 
     /**
-     * @var string|null an honorific prefix preceding a Person's name such as Dr/Mrs/Mr
-     *
-     * @ORM\Column(type="text", nullable=true)
-     * @ApiProperty(iri="http://schema.org/honorificPrefix")
-     * @Assert\Type(type="string")
-     */
-    private $honorificPrefix;
-
-    /**
-     * @var string|null the name of the item
+     * @var string the name of the item compose by the familyName and givenName
      *
      * @ApiProperty(iri="http://schema.org/name")
-     * @Assert\Type(type="string")
      */
     private $name;
 
@@ -78,11 +70,12 @@ class Person
     private $description;
 
     /**
-     * @var string|null A sub property of description. A short description of the item used to disambiguate from other, similar items. Information from other properties (in particular, name) may be necessary for the description to be useful for disambiguation.
+     * @var string A sub property of description. A short description of the item used to disambiguate from other, similar items. Information from other properties (in particular, name) may be necessary for the description to be useful for disambiguation.
      *
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="text")
      * @ApiProperty(iri="http://schema.org/disambiguatingDescription")
      * @Assert\Type(type="string")
+     * @Assert\NotBlank
      */
     private $disambiguatingDescription;
 
@@ -147,21 +140,6 @@ class Person
     public function getGivenName(): ?string
     {
         return $this->givenName;
-    }
-
-    public function setHonorificPrefix(?string $honorificPrefix): void
-    {
-        $this->honorificPrefix = $honorificPrefix;
-    }
-
-    public function getHonorificPrefix(): ?string
-    {
-        return $this->honorificPrefix;
-    }
-
-    public function setName(?string $name): void
-    {
-        $this->name = $name;
     }
 
     public function getName(): ?string

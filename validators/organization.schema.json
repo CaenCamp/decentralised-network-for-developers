@@ -1,0 +1,170 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Organization-organization": {
+      "type": "object",
+      "description": "An organization such as a school, NGO, corporation, club, etc.",
+      "externalDocs": {
+        "url": "http://schema.org/Organization"
+      },
+      "required": ["name", "disambiguatingDescription"],
+      "properties": {
+        "name": {
+          "description": "the name of the item",
+          "externalDocs": {
+            "url": "http://schema.org/name"
+          },
+          "type": "string"
+        },
+        "description": {
+          "description": "a description of the item",
+          "externalDocs": {
+            "url": "http://schema.org/description"
+          },
+          "type": "string",
+          "nullable": true
+        },
+        "disambiguatingDescription": {
+          "description": "A sub property of description. A short description of the item used to disambiguate from other, similar items. Information from other properties (in particular, name) may be necessary for the description to be useful for disambiguation.",
+          "externalDocs": {
+            "url": "http://schema.org/disambiguatingDescription"
+          },
+          "type": "string"
+        },
+        "image": {
+          "description": "An image of the item. This is a \\[\\[URL\\]\\].",
+          "externalDocs": {
+            "url": "http://schema.org/image"
+          },
+          "type": "string",
+          "nullable": true
+        },
+        "url": {
+          "description": "URL of the item",
+          "externalDocs": {
+            "url": "http://schema.org/url"
+          },
+          "type": "string",
+          "nullable": true
+        },
+        "location": {
+          "description": "the location of for example where the event is happening, an organization is located, or where an action takes place",
+          "externalDocs": {
+            "url": "http://schema.org/location"
+          },
+          "nullable": true,
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Place-organization"
+            }
+          ]
+        },
+        "email": {
+          "description": "email address",
+          "externalDocs": {
+            "url": "http://schema.org/email"
+          },
+          "type": "string",
+          "nullable": true
+        },
+        "members": {
+          "description": "a member of this organization",
+          "externalDocs": {
+            "url": "http://schema.org/members"
+          },
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "iri-reference"
+          }
+        }
+      }
+    },
+    "Place-organization": {
+      "type": "object",
+      "description": "Entities that have a somewhat fixed, physical extension.",
+      "externalDocs": {
+        "url": "http://schema.org/Place"
+      },
+      "properties": {
+        "address": {
+          "description": "physical address of the item",
+          "externalDocs": {
+            "url": "http://schema.org/address"
+          },
+          "nullable": true,
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PostalAddress-organization"
+            }
+          ]
+        },
+        "hasMap": {
+          "description": "a URL to a map of the place",
+          "externalDocs": {
+            "url": "http://schema.org/hasMap"
+          },
+          "type": "string",
+          "nullable": true
+        },
+        "latitude": {
+          "type": "number",
+          "nullable": true
+        },
+        "longitude": {
+          "type": "number",
+          "nullable": true
+        },
+        "maximumAttendeeCapacity": {
+          "description": "the total number of individuals that may attend an event or venue",
+          "externalDocs": {
+            "url": "http://schema.org/maximumAttendeeCapacity"
+          },
+          "type": "integer",
+          "nullable": true
+        }
+      }
+    },
+    "PostalAddress-organization": {
+      "type": "object",
+      "description": "The mailing address.",
+      "externalDocs": {
+        "url": "http://schema.org/PostalAddress"
+      },
+      "properties": {
+        "addressCountry": {
+          "description": "The country. For example, USA. You can also provide the two-letter \\[ISO 3166-1 alpha-2 country code\\](http://en.wikipedia.org/wiki/ISO\\_3166-1).",
+          "externalDocs": {
+            "url": "http://schema.org/addressCountry"
+          },
+          "type": "string",
+          "nullable": true
+        },
+        "addressLocality": {
+          "description": "The locality. For example, Mountain View.",
+          "externalDocs": {
+            "url": "http://schema.org/addressLocality"
+          },
+          "type": "string",
+          "nullable": true
+        },
+        "postalCode": {
+          "description": "The postal code. For example, 94043.",
+          "externalDocs": {
+            "url": "http://schema.org/postalCode"
+          },
+          "type": "string",
+          "nullable": true
+        },
+        "streetAddress": {
+          "description": "The street address. For example, 1600 Amphitheatre Pkwy.",
+          "externalDocs": {
+            "url": "http://schema.org/streetAddress"
+          },
+          "type": "string",
+          "nullable": true
+        }
+      }
+    }
+  }
+}
