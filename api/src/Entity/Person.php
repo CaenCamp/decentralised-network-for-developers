@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * A person (alive, dead, undead, or fictional).
@@ -28,6 +29,7 @@ class Person
      * @ORM\GeneratedValue(strategy="UUID")
      * @ORM\Column(type="guid")
      * @Assert\Uuid
+     * @ApiProperty(identifier=false)
      */
     private $id;
 
@@ -109,6 +111,13 @@ class Person
      * @ApiProperty(iri="http://schema.org/memberOf")
      */
     private $memberOf;
+
+    /**
+     * @Gedmo\Slug(fields={"givenName", "familyName"})
+     * @ORM\Column(length=300, unique=true)
+     * @ApiProperty(identifier=true)
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -213,5 +222,10 @@ class Person
     public function getMemberOf(): Collection
     {
         return $this->memberOf;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }
