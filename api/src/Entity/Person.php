@@ -18,7 +18,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @see http://schema.org/Person Documentation on Schema.org
  *
  * @ORM\Entity
- * @ApiResource(iri="http://schema.org/Person")
+ * @ApiResource(
+ *  iri="http://schema.org/Person",
+ *  attributes={"order"={"familyName": "ASC"}}
+ * )
  */
 class Person
 {

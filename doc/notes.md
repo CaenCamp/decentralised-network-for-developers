@@ -241,11 +241,10 @@ Donc c'est chouette, on a une Doc d'API comme on veut, et une interface d'admin 
 Dans les ptit truc à faire :
 * [DONE] inversion relation people/organization
 * [DONE ]utiliser un slug comme identifier
-* travailler la validation
-* générer les json-schema pour validation front
-* Ajouter des filtres et du tri !!!!
-* afficher un name pour people baser sur les 3 autres (test unit)
-* afficher la data formater avec du microdata
+* [DONE]travailler la validation
+* [DONE mais exploitation FAIL] générer les json-schema pour validation front
+* [DONE] Ajouter des filtres et du tri !!!!
+* [DONE] afficher un name pour people baser sur les 3 autres (test unit)
 * authentification JWT
 
 Ensuite : 
@@ -253,6 +252,7 @@ Ensuite :
 * Tests
 * CI
 * Déploiement
+* afficher la data formatée avec du microdata
 * graphQL
 * Vulcain
 * Mercure
@@ -274,3 +274,65 @@ Encore une fois, de la conf
 https://github.com/Atlantic18/DoctrineExtensions
 https://symfony.com/doc/master/bundles/StofDoctrineExtensionsBundle/index.html
 https://api-platform.com/docs/core/identifiers/#changing-identifier-in-a-doctrine-entity
+
+### Validation
+
+Par configuration côté API encore ! Mais efficace
+Export du schema json valide et prometeuses, par contre, je n'ai pas sû et pas passer le temps pour l'exploiter côté front avec ajv.
+https://www.npmjs.com/package/ajv
+A tester plus tard ! entre autre avec
+https://github.com/hyperjump-io/json-schema-validator
+
+### Filtres et Trie
+
+Objectif sur une organisation :
+
+Filtre par :
+* nom
+* code postal
+* geolocalisé
+
+Tri par :
+* nom
+* code postal
+* nombre de developpeur ?
+
+Donc dans un premier temps, pour une un filtre sur la props d'un objet, magie de la programmation par configuration : 
+
+```
+ * @ApiFilter(
+ *   SearchFilter::class,
+ *   properties={"name": "partial"}
+ * )
+```
+
+Permet de : 
+
+* Créer le service (oui, le filtre est un service symfony) doctrine sans rien d'avoir d'autre à faire
+* la documentation du filtres dans OpenAPI (et graphQl si installer)
+* ajoute le lien du filtre (hydra-search) dans le Json-LD
+* et du coup, génération automatique du filtre dans RA
+
+Un gain de temps de furieux !!!!!
+
+MAIS, on est sur un props de l'objet, on impose le type de filtre (%LIKE, LIKE%, %LIKE%) au niveau de l'API (logique à cause de hydra ?)
+
+Ok, donc cela marche avec les objet imbriqué ! (du genre le code postal d'une orga) Classe ! Mais il semble que dans ce cas, la génération
+du filtre ne marche pas côté RA. Pas grave, ca s'implemente facilement.
+
+Le sort est aussi un filtre
+On peut definir l'ordre par defaut : 
+```
+@ApiResource(attributes={"order"={"foo": "ASC"}})
+```
+
+
+Plein de moyen de spécifier ses filtres (avec du vrai code \o/)
+
+Bin, c'est quand même plutôt classe !
+
+J'ai donc pas tester les filtres de tri custom qui serait le nombre de développeurs
+
+> Note: on a une pagination par default, j'y avais même pas prêter attention. Mais c'est aussi un gros gain de temps !!!!
+
+

@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\ExistsFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * An organization such as a school, NGO, corporation, club, etc.
@@ -22,8 +27,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ApiResource(
  *  iri="http://schema.org/Organization",
  *  normalizationContext={"groups"={"organization"}},
- *  denormalizationContext={"groups"={"organization"}}
+ *  denormalizationContext={"groups"={"organization"}},
+ *  attributes={"order"={"name": "ASC"}}
  * )
+ * @ApiFilter(OrderFilter::class, properties={"name", "location.address.postalCode"}, arguments={"orderParameterName"="order"})
  */
 class Organization
 {
@@ -46,6 +53,7 @@ class Organization
      * @Assert\Type(type="string")
      * @Assert\NotBlank
      * @Groups({"organization"})
+     * @ApiFilter(SearchFilter::class, strategy="partial")
      */
     private $name;
 
@@ -96,6 +104,8 @@ class Organization
      * @ORM\OneToOne(targetEntity="App\Entity\Place", cascade={"persist"})
      * @ApiProperty(iri="http://schema.org/location")
      * @Groups({"organization", "post"})
+     * @ApiFilter(SearchFilter::class, properties={"location.address.postalCode": "start"})
+     * @ApiFilter(ExistsFilter::class, properties={"location.hasMap"})
      */
     private $location;
 
