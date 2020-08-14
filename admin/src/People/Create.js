@@ -2,7 +2,7 @@ import React from 'react';
 import { Create, SimpleForm, TextInput, required, ReferenceArrayInput, SelectArrayInput } from 'react-admin';
 
 export const PeopleCreate = (props) => (
-    <Create {...props} title="Création d'une boite">
+    <Create {...props} title="Création d'une personne">
         <SimpleForm>
             <TextInput
                 fullWidth

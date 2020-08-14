@@ -3,8 +3,9 @@ import { HydraAdmin, fetchHydra, hydraDataProvider } from "@api-platform/admin";
 import { Resource } from 'react-admin';
 import { parseHydraDocumentation } from "@api-platform/api-doc-parser";
 
-import Organization from './Organizations';
+import Organizations from './Organizations';
 import People from './People';
+import Places from './Places';
 
 const entrypoint = process.env.REACT_APP_API_ENTRYPOINT;
 
@@ -21,6 +22,7 @@ export default () => (
         entrypoint={ entrypoint }
     >
         <Resource name="people" {...People} />
-        <Resource name="organizations" {...Organization} />
+        <Resource name="organizations" {...Organizations} />
+        <Resource name="places" {...Places} />
   </HydraAdmin>
 );

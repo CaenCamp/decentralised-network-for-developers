@@ -107,7 +107,7 @@ class Organization
      *
      * @ORM\OneToOne(targetEntity="App\Entity\Place", cascade={"persist"})
      * @ApiProperty(iri="http://schema.org/location")
-     * @Groups({"organization", "post"})
+     * @Groups({"organization"})
      * @ApiFilter(SearchFilter::class, properties={"location.address.postalCode": "start"})
      * @ApiFilter(SearchFilter::class, properties={"location.address.addressLocality": "start"})
      * @ApiFilter(ExistsFilter::class, properties={"location.hasMap"})

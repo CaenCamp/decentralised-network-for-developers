@@ -23,9 +23,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity
  * @ApiResource(
  *  iri="http://schema.org/Place",
- *  normalizationContext={"groups"={"place", "organization"}},
- *  denormalizationContext={"groups"={"place", "organization"}},
+ *  normalizationContext={"groups"={"place"}},
+ *  denormalizationContext={"groups"={"place"}},
  * )
+ * @ApiFilter(ExistsFilter::class, properties={"name"})
  */
 class Place
 {
@@ -96,6 +97,8 @@ class Place
      * @ORM\ManyToOne(targetEntity="App\Entity\PostalAddress", cascade={"persist"})
      * @ApiProperty(iri="http://schema.org/address")
      * @Groups({"organization", "place"})
+     * @ApiFilter(SearchFilter::class, properties={"address.postalCode": "start"})
+     * @ApiFilter(SearchFilter::class, properties={"address.addressLocality": "start"})
      */
     private $address;
 

@@ -27,10 +27,11 @@ Logo.propTypes = {
 };
 
 export const Address = ({ record }) => {
+    const address = record.location ? record.location.address : record.address;
     return (
         <div>
-            {record.location.address.streetAddress}<br />
-            {record.location.address.postalCode} {record.location.address.addressLocality}
+            {address.streetAddress}<br />
+            {address.postalCode} {address.addressLocality}
         </div>
     );
 };
