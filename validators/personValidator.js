@@ -1,0 +1,101 @@
+'use strict';
+var validate = (function() {
+  var refVal = [];
+  return function validate(data, dataPath, parentData, parentDataProperty, rootData) {
+    'use strict';
+    validate.errors = null;
+    return true;
+  };
+})();
+validate.schema = {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Person": {
+      "type": "object",
+      "description": "A person (alive, dead, undead, or fictional).",
+      "externalDocs": {
+        "url": "http://schema.org/Person"
+      },
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "externalDocs": {
+            "url": "http://schema.org/identifier"
+          },
+          "type": "string"
+        },
+        "familyName": {
+          "description": "Family name. In the U.S., the last name of an Person. This can be used along with givenName instead of the name property.",
+          "externalDocs": {
+            "url": "http://schema.org/familyName"
+          },
+          "type": "string"
+        },
+        "givenName": {
+          "description": "Given name. In the U.S., the first name of a Person. This can be used along with familyName instead of the name property.",
+          "externalDocs": {
+            "url": "http://schema.org/givenName"
+          },
+          "type": "string"
+        },
+        "name": {
+          "readOnly": true,
+          "description": "the name of the item compose by the familyName and givenName",
+          "externalDocs": {
+            "url": "http://schema.org/name"
+          },
+          "type": "string"
+        },
+        "description": {
+          "description": "a description of the item",
+          "externalDocs": {
+            "url": "http://schema.org/description"
+          },
+          "type": "string",
+          "nullable": true
+        },
+        "disambiguatingDescription": {
+          "description": "A sub property of description. A short description of the item used to disambiguate from other, similar items. Information from other properties (in particular, name) may be necessary for the description to be useful for disambiguation.",
+          "externalDocs": {
+            "url": "http://schema.org/disambiguatingDescription"
+          },
+          "type": "string"
+        },
+        "image": {
+          "description": "An image of the item. This can be a \\[\\[URL\\]\\] or a fully described \\[\\[ImageObject\\]\\].",
+          "externalDocs": {
+            "url": "http://schema.org/image"
+          },
+          "type": "string",
+          "nullable": true
+        },
+        "url": {
+          "description": "URL of the item",
+          "externalDocs": {
+            "url": "http://schema.org/url"
+          },
+          "type": "string",
+          "nullable": true
+        },
+        "memberOf": {
+          "description": "an Organization (or ProgramMembership) to which this Person or Organization belongs",
+          "externalDocs": {
+            "url": "http://schema.org/memberOf"
+          },
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "iri-reference"
+          }
+        },
+        "slug": {
+          "readOnly": true,
+          "type": "string"
+        }
+      },
+      "required": ["familyName", "givenName", "disambiguatingDescription"]
+    }
+  }
+};
+validate.errors = null;
+module.exports = validate;

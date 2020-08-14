@@ -8,6 +8,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * The mailing address.
@@ -15,7 +16,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see http://schema.org/PostalAddress Documentation on Schema.org
  *
  * @ORM\Entity
- * @ApiResource(iri="http://schema.org/PostalAddress")
+ * @ApiResource(
+ *  iri="http://schema.org/PostalAddress",
+ *  itemOperations={
+ *     "get": {
+ *         "method": "GET",
+ *         "controller": SomeRandomController::class
+ *     }
+ * })
  */
 class PostalAddress
 {
@@ -35,6 +43,7 @@ class PostalAddress
      * @ORM\Column(type="text", nullable=true)
      * @ApiProperty(iri="http://schema.org/addressCountry")
      * @Assert\Type(type="string")
+     * @Groups({"organization", "post"})
      */
     private $addressCountry;
 
@@ -44,6 +53,7 @@ class PostalAddress
      * @ORM\Column(type="text", nullable=true)
      * @ApiProperty(iri="http://schema.org/addressLocality")
      * @Assert\Type(type="string")
+     * @Groups({"organization", "post"})
      */
     private $addressLocality;
 
@@ -53,6 +63,7 @@ class PostalAddress
      * @ORM\Column(type="text", nullable=true)
      * @ApiProperty(iri="http://schema.org/postalCode")
      * @Assert\Type(type="string")
+     * @Groups({"organization", "post"})
      */
     private $postalCode;
 
@@ -62,6 +73,7 @@ class PostalAddress
      * @ORM\Column(type="text", nullable=true)
      * @ApiProperty(iri="http://schema.org/streetAddress")
      * @Assert\Type(type="string")
+     * @Groups({"organization", "post"})
      */
     private $streetAddress;
 

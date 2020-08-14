@@ -8,6 +8,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Entities that have a somewhat fixed, physical extension.
@@ -15,7 +16,16 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see http://schema.org/Place Documentation on Schema.org
  *
  * @ORM\Entity
- * @ApiResource(iri="http://schema.org/Place")
+ * @ApiResource(
+ *  iri="http://schema.org/Place",
+ *  normalizationContext={"groups"={"organization"}},
+ *  denormalizationContext={"groups"={"organization"}},
+ *  itemOperations={
+ *     "get": {
+ *         "method": "GET",
+ *         "controller": SomeRandomController::class
+ *     }
+ * })
  */
 class Place
 {
@@ -30,46 +40,11 @@ class Place
     private $id;
 
     /**
-     * @var string|null a description of the item
-     *
-     * @ORM\Column(type="text", nullable=true)
-     * @ApiProperty(iri="http://schema.org/description")
-     * @Assert\Type(type="string")
-     */
-    private $description;
-
-    /**
-     * @var string|null the name of the item
-     *
-     * @ORM\Column(type="text", nullable=true)
-     * @ApiProperty(iri="http://schema.org/name")
-     * @Assert\Type(type="string")
-     */
-    private $name;
-
-    /**
-     * @var string|null An image of the item. This can be a \[\[URL\]\] or a fully described \[\[ImageObject\]\].
-     *
-     * @ORM\Column(type="text", nullable=true)
-     * @ApiProperty(iri="http://schema.org/image")
-     * @Assert\Url
-     */
-    private $image;
-
-    /**
-     * @var string|null URL of the item
-     *
-     * @ORM\Column(type="text", nullable=true)
-     * @ApiProperty(iri="http://schema.org/url")
-     * @Assert\Url
-     */
-    private $url;
-
-    /**
      * @var PostalAddress|null physical address of the item
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\PostalAddress")
+     * @ORM\ManyToOne(targetEntity="App\Entity\PostalAddress", cascade={"persist"})
      * @ApiProperty(iri="http://schema.org/address")
+     * @Groups({"organization", "post"})
      */
     private $address;
 
@@ -79,6 +54,7 @@ class Place
      * @ORM\Column(type="text", nullable=true)
      * @ApiProperty(iri="http://schema.org/hasMap")
      * @Assert\Url
+     * @Groups({"organization"})
      */
     private $hasMap;
 
@@ -87,6 +63,7 @@ class Place
      *
      * @ORM\Column(type="float", nullable=true)
      * @Assert\Type(type="float")
+     * @Groups({"organization"})
      */
     private $latitude;
 
@@ -95,6 +72,7 @@ class Place
      *
      * @ORM\Column(type="float", nullable=true)
      * @Assert\Type(type="float")
+     * @Groups({"organization"})
      */
     private $longitude;
 
@@ -104,52 +82,13 @@ class Place
      * @ORM\Column(type="integer", nullable=true)
      * @ApiProperty(iri="http://schema.org/maximumAttendeeCapacity")
      * @Assert\Type(type="integer")
+     * @Groups({"organization"})
      */
     private $maximumAttendeeCapacity;
 
     public function getId(): ?string
     {
         return $this->id;
-    }
-
-    public function setDescription(?string $description): void
-    {
-        $this->description = $description;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setName(?string $name): void
-    {
-        $this->name = $name;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setImage(?string $image): void
-    {
-        $this->image = $image;
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setUrl(?string $url): void
-    {
-        $this->url = $url;
-    }
-
-    public function getUrl(): ?string
-    {
-        return $this->url;
     }
 
     public function setAddress(?PostalAddress $address): void

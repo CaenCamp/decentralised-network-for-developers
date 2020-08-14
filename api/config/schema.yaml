@@ -3,81 +3,41 @@ id:
 validator:
   assertType: true
 types:
-  # EventStatusType is an enumeration type whose instances represent several states that an Event may be in.
-  EventStatusType:
-    properties: {}
-  # A meetup
-  Event:
-    properties:
-      description: ~
-      name: ~
-      image: ~
-      url: ~
-      doorTime: { range: "DateTime" }
-      eventStatus: { range: "EventStatusType" }
-      inLanguage: { range: "Text" }
-      isAccessibleForFree: ~
-      location: { range: "Place" }
-      maximumAttendeeCapacity: ~
-      organizer: { range: "Organization" }
-      performer: { range: "Person" }
-      recordedIn: ~
-      sponsor: { range: "Organization" }
-      startDate: { range: "DateTime" }
-  # The most generic kind of creative work, including books, movies, photographs, software programs, etc
-  CreativeWork:
-    properties:
-      description: ~
-      name: ~
-      image: ~
-      url: ~
-      abstract: { range: "Text" }
-      creator: { range: "Organization" }
-      dateCreated: { range: "DateTime" }
-      datePublished: { range: "DateTime" }
-      encoding: ~
-      inLanguage: { range: "Text" }
-      isAccessibleForFree: ~
-      license: { range: "URL" }
-      locationCreated: { range: "Place" }
-      recordedAt: ~
-      thumbnailUrl: ~
-  # A media object, such as an image, video, or audio object embedded in a web page or a downloadable dataset i.e.
-  MediaObject:
-    properties:
-      contentUrl: ~
-      embedUrl: ~
-  # A physical location
-  Place:
-    properties:
-      description: ~
-      name: ~
-      image: ~
-      url: ~
-      address: { range: "PostalAddress" }
-      hasMap: { range: "URL" }
-      latitude: { range: "Number" }
-      longitude: { range: "Number" }
-      maximumAttendeeCapacity: ~
-  # A postal adress
   PostalAddress:
     properties:
       addressCountry: { range: "Text" }
       addressLocality: ~
       postalCode: ~
       streetAddress: ~
-  # A speaker
-  Person:
+  Place:
     properties:
-      description: ~
-      name: ~
-      image: ~
-      url: ~
-  # A Organization, should be a sponsor or a speaker's organization
+      address: { range: "PostalAddress" }
+      hasMap: { range: "URL" }
+      latitude: { range: "Number" }
+      longitude: { range: "Number" }
+      maximumAttendeeCapacity: ~
   Organization:
     properties:
-      description: ~
       name: ~
+      description: ~
+      disambiguatingDescription: ~
       image: ~
       url: ~
       location: { range: "Place" }
+      email: ~
+      members:
+        cardinality: "(*..*)"
+        range: "Person"
+  Person:
+    properties:
+      familyName: ~
+      givenName: ~
+      honorificPrefix: ~
+      name: ~
+      description: ~
+      disambiguatingDescription: ~
+      image: ~
+      url: ~
+      memberOf:
+        cardinality: "(*..*)"
+        range: "Organization"
