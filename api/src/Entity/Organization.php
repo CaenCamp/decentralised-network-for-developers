@@ -30,7 +30,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *  denormalizationContext={"groups"={"organization"}},
  *  attributes={"order"={"name": "ASC"}}
  * )
- * @ApiFilter(OrderFilter::class, properties={"name", "location.address.postalCode"}, arguments={"orderParameterName"="order"})
+ * @ApiFilter(
+ *  OrderFilter::class,
+ *  properties={"name", "location.address.postalCode"},
+ *  arguments={"orderParameterName"="order"}
+ * )
  */
 class Organization
 {
@@ -105,6 +109,7 @@ class Organization
      * @ApiProperty(iri="http://schema.org/location")
      * @Groups({"organization", "post"})
      * @ApiFilter(SearchFilter::class, properties={"location.address.postalCode": "start"})
+     * @ApiFilter(SearchFilter::class, properties={"location.address.addressLocality": "start"})
      * @ApiFilter(ExistsFilter::class, properties={"location.hasMap"})
      */
     private $location;

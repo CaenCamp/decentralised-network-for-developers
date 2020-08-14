@@ -8,5 +8,5 @@ export default {
     create: OrganizationCreate,
     edit: OrganizationEdit,
     icon: OrganizationIcon,
-    options: { label: 'Les boites' }
+    options: { label: 'Les organisations' }
 };
