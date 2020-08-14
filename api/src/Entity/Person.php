@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A person (alive, dead, undead, or fictional).
@@ -21,6 +24,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ApiResource(
  *  iri="http://schema.org/Person",
  *  attributes={"order"={"familyName": "ASC"}}
+ * )
+ * @ApiFilter(
+ *  OrderFilter::class,
+ *  properties={"familyName", "givenName",},
+ *  arguments={"orderParameterName"="order"}
  * )
  */
 class Person
@@ -43,6 +51,7 @@ class Person
      * @ApiProperty(iri="http://schema.org/familyName")
      * @Assert\Type(type="string")
      * @Assert\NotBlank
+     * @ApiFilter(SearchFilter::class, strategy="partial")
      */
     private $familyName;
 

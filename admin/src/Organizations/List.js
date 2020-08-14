@@ -7,6 +7,9 @@ import {
     TextField,
     Filter,
     TextInput,
+    ChipField,
+    ReferenceArrayField,
+    SingleFieldList,
 } from 'react-admin';
 
 export const Logo = ({ record }) => {
@@ -60,6 +63,11 @@ export const OrganizationList = (props) => (
             <TextField source="name" label="Nom" />
             <Address source="location.address.postalCode" label="Adresse" />
             <TextField source="disambiguatingDescription" label="Résumé" />
+            <ReferenceArrayField label="Membres" reference="people" source="members">
+                <SingleFieldList>
+                    <ChipField source="name" />
+                </SingleFieldList>
+            </ReferenceArrayField>
             <EditButton />
         </Datagrid>
     </List>

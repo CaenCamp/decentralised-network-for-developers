@@ -1,9 +1,10 @@
 import React from "react";
-import { ResourceGuesser, HydraAdmin, fetchHydra, hydraDataProvider } from "@api-platform/admin";
+import { HydraAdmin, fetchHydra, hydraDataProvider } from "@api-platform/admin"; // ResourceGuesser, 
 import { Resource } from 'react-admin';
 import { parseHydraDocumentation } from "@api-platform/api-doc-parser";
 
 import Organization from './Organizations';
+import People from './People';
 
 const entrypoint = process.env.REACT_APP_API_ENTRYPOINT;
 
@@ -19,7 +20,7 @@ export default () => (
         dataProvider={ dataProvider }
         entrypoint={ entrypoint }
     >
-        <ResourceGuesser name="people" />
-        <ResourceGuesser name="organizations" {...Organization} />
+        <Resource name="people" {...People} />
+        <Resource name="organizations" {...Organization} />
   </HydraAdmin>
 );
