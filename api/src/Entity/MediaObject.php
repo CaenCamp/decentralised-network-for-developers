@@ -56,15 +56,6 @@ class MediaObject
     private $contentUrl;
 
     /**
-     * @var string|null A URL pointing to a player for a specific video. In general, this is the information in the ```src``` element of an ```embed``` tag and should not be the same as the content of the ```loc``` tag.
-     *
-     * @ORM\Column(type="text", nullable=true)
-     * @ApiProperty(iri="http://schema.org/embedUrl")
-     * @Assert\Url
-     */
-    private $embedUrl;
-
-    /**
      * @var CreativeWork|null the CreativeWork encoded by this media object
      *
      * @ORM\OneToOne(targetEntity="App\Entity\CreativeWork")
@@ -105,16 +96,6 @@ class MediaObject
     public function getContentUrl(): ?string
     {
         return $this->contentUrl;
-    }
-
-    public function setEmbedUrl(?string $embedUrl): void
-    {
-        $this->embedUrl = $embedUrl;
-    }
-
-    public function getEmbedUrl(): ?string
-    {
-        return $this->embedUrl;
     }
 
     public function setEncodesCreativeWork(?CreativeWork $encodesCreativeWork): void

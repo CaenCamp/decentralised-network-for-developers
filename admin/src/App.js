@@ -10,6 +10,7 @@ import Events from './Events';
 import CreativeWork from './CreativeWorks';
 import Media from './Medias';
 import Video from './Videos';
+import LearningResourceTypes from './LearningResourceType';
 
 const entrypoint = process.env.REACT_APP_API_ENTRYPOINT;
 
@@ -32,5 +33,6 @@ export default () => (
         <Resource name="media_objects" {...Media} />
         <Resource name="video_objects" {...Video} />
         <Resource name="organizations" {...Organizations} />
+        <Resource name="learning_resource_types" {...LearningResourceTypes} />
   </HydraAdmin>
 );

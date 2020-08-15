@@ -47,7 +47,6 @@ types:
       abstract: { range: "Text" }
       learningResourceType: ~ # Slide, Git Repo, ...
       contentUrl: ~
-      embedUrl: ~
       encodesCreativeWork: { range: "CreativeWork" }
   # A the record of the meetup, ...
   VideoObject:
