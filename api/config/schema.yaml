@@ -41,3 +41,60 @@ types:
       memberOf:
         cardinality: "(*..*)"
         range: "Organization"
+  # A media object, such as an git repo, slides, ...
+  MediaObject:
+    properties:
+      abstract: { range: "Text" }
+      learningResourceType: ~ # Slide, Git Repo, ...
+      contentUrl: ~
+      embedUrl: ~
+      encodesCreativeWork: { range: "CreativeWork" }
+  # A the record of the meetup, ...
+  VideoObject:
+    properties:
+      abstract: { range: "Text" }
+      contentUrl: ~
+      embedUrl: ~
+      encodesCreativeWork: { range: "CreativeWork" }
+      recordedAt: { range: "Event" }
+  # The most generic kind of creative work, including books, movies, photographs, software programs, etc
+  CreativeWork:
+    properties:
+      name: ~
+      disambiguatingDescription: ~
+      abstract: { range: "Text" }
+      image: ~
+      genre: { range: "Text" }
+      learningResourceType: ~ # Talk, LightningTalk, coding dojo, ...
+      # creativeWorkStatus
+      inLanguage: { range: "Text" }
+      author: { range: "Person" }
+      # maintainer: { range: "Person"}
+      encoding: ~
+      video: { range: "VideoObject " }
+  # EventStatusType is an enumeration type whose instances represent several states that an Event may be in.
+  EventStatusType:
+    properties: {}
+  # An EventAttendanceModeEnumeration value is one of potentially several modes of organising an event, relating to whether it is online or offline.
+  # EventAttendanceModeEnumeration:
+  #   properties: {}
+  # A meetup
+  Event:
+    properties:
+      name: ~
+      description: ~
+      disambiguatingDescription: ~
+      image: ~
+      url: ~ # Link in case of online event !
+      eventStatus: { range: "EventStatusType" }
+      # eventAttendanceMode: { range: "EventAttendanceModeEnumeration" }
+      inLanguage: { range: "Text" }
+      isAccessibleForFree: ~
+      doorTime: { range: "DateTime" }
+      startDate: { range: "DateTime" }
+      endDate: { range: "DateTime" }
+      location: { range: "Place" }
+      organizer: { range: "Organization" }
+      sponsor: { range: "Organization" }
+      workFeatured: { range: "CreativeWork " }
+      recordedIn: { range: "VideoObject" }
