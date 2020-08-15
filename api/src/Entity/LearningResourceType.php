@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\LearningResourceTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,6 +21,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ApiResource(
  *  iri="http://schema.org/learningResourceType"
+ * )
+ * @ApiFilter(
+ *  OrderFilter::class,
+ *  properties={"name", "typeFor",},
+ *  arguments={"orderParameterName"="order"}
  * )
  */
 class LearningResourceType
@@ -41,6 +49,7 @@ class LearningResourceType
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @ApiFilter(SearchFilter::class, strategy="start")
      */
     private $typeFor;
 

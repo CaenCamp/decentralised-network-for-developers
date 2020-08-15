@@ -4,6 +4,8 @@ import {
     EditButton,
     List,
     TextField,
+    UrlField,
+    ReferenceField
 } from 'react-admin';
 
 export const VideoList = (props) => (
@@ -16,6 +18,14 @@ export const VideoList = (props) => (
     >
         <Datagrid>
             <TextField source="abstract" label="Description" />
+            <UrlField source="contentUrl" label="Lien" />
+            <UrlField source="embedUrl" label="Lien embed" />
+            <ReferenceField label="Support du talk" source="encodesCreativeWork" reference="creative_works">
+                <TextField source="name" />
+            </ReferenceField>
+            <ReferenceField label="Enregistré au meetup" source="recordedAt" reference="events">
+                <TextField source="name" />
+            </ReferenceField>
             <EditButton />
         </Datagrid>
     </List>
