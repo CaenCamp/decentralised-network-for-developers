@@ -6,6 +6,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -64,14 +66,6 @@ class CreativeWork
      */
     private $image;
 
-    /**
-     * @var string|null genre of the creative work, broadcast channel or group
-     *
-     * @ORM\Column(type="text", nullable=true)
-     * @ApiProperty(iri="http://schema.org/genre")
-     * @Assert\Type(type="string")
-     */
-    private $genre;
 
     /**
      * @var string|null The predominant type or kind characterizing the learning resource. For example, 'presentation', 'handout'.
@@ -92,12 +86,12 @@ class CreativeWork
     private $inLanguage;
 
     /**
-     * @var Person|null The author of this content or rating. Please note that author is special in that HTML 5 provides a special mechanism for indicating authorship via the rel tag. That is equivalent to this and may be used interchangeably.
+     * @var Person|null A maintainer of a Dataset, software package (SoftwareApplication), or other Project. A maintainer is a Person or Organization that manages contributions to, and/or publication of, some (typically complex) artifact.
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\Person")
-     * @ApiProperty(iri="http://schema.org/author")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Person", mappedBy="maintainerOf")
+     * @ApiProperty(iri="http://schema.org/maintainer")
      */
-    private $author;
+    private $maintainers;
 
     /**
      * @var MediaObject|null A media object that encodes this CreativeWork. This property is a synonym for associatedMedia.
@@ -114,6 +108,11 @@ class CreativeWork
      * @ApiProperty(iri="http://schema.org/video")
      */
     private $video;
+
+    public function __construct()
+    {
+        $this->maintainers = new ArrayCollection();
+    }
 
     public function getId(): ?string
     {
@@ -160,16 +159,6 @@ class CreativeWork
         return $this->image;
     }
 
-    public function setGenre(?string $genre): void
-    {
-        $this->genre = $genre;
-    }
-
-    public function getGenre(): ?string
-    {
-        return $this->genre;
-    }
-
     public function setLearningResourceType(?string $learningResourceType): void
     {
         $this->learningResourceType = $learningResourceType;
@@ -188,16 +177,6 @@ class CreativeWork
     public function getInLanguage(): ?string
     {
         return $this->inLanguage;
-    }
-
-    public function setAuthor(?Person $author): void
-    {
-        $this->author = $author;
-    }
-
-    public function getAuthor(): ?Person
-    {
-        return $this->author;
     }
 
     public function setEncoding(?MediaObject $encoding): void
@@ -225,4 +204,20 @@ class CreativeWork
     {
         return $this->video;
     }
+
+    public function addMaintainer(Person $maintainer): void
+    {
+        $this->maintainers[] = $maintainer;
+    }
+
+    public function removeMaintainer(Person $maintainer): void
+    {
+        $this->maintainers->removeElement($maintainer);
+    }
+
+    public function getMaintainers(): Collection
+    {
+        return $this->maintainers;
+    }
+
 }

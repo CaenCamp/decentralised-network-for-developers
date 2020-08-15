@@ -41,6 +41,9 @@ types:
       memberOf:
         cardinality: "(*..*)"
         range: "Organization"
+      maintainerOf:
+        cardinality: "(*..*)"
+        range: "CreativeWork"
   # A media object, such as an git repo, slides, ...
   MediaObject:
     properties:
@@ -63,12 +66,12 @@ types:
       disambiguatingDescription: ~
       abstract: { range: "Text" }
       image: ~
-      genre: { range: "Text" }
       learningResourceType: ~ # Talk, LightningTalk, coding dojo, ...
       # creativeWorkStatus
       inLanguage: { range: "Text" }
-      author: { range: "Person" }
-      # maintainer: { range: "Person"}
+      maintainers:
+        cardinality: "(*..*)"
+        range: "Person"
       encoding: ~
       video: { range: "VideoObject " }
   # EventStatusType is an enumeration type whose instances represent several states that an Event may be in.

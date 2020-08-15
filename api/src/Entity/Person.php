@@ -118,6 +118,13 @@ class Person
     private $memberOf;
 
     /**
+     * @var Collection<CreativeWork>|null the CreativeWorks that the person maintains     
+     * @ORM\ManyToMany(targetEntity="App\Entity\CreativeWork", inversedBy="maintainers")
+     * @ApiProperty(iri="http://schema.org/things")
+     */
+    private $maintainerOf;
+
+    /**
      * @Gedmo\Slug(fields={"givenName", "familyName"})
      * @ORM\Column(length=300, unique=true)
      * @ApiProperty(identifier=true)
@@ -212,6 +219,21 @@ class Person
     public function getMemberOf(): Collection
     {
         return $this->memberOf;
+    }
+
+    public function addMaintainerOf(CreativeWork $maintainerOf): void
+    {
+        $this->maintainerOf[] = $maintainerOf;
+    }
+
+    public function removeMaintainerOf(CreativeWork $maintainerOf): void
+    {
+        $this->maintainerOf->removeElement($maintainerOf);
+    }
+
+    public function getMaintainerOf(): Collection
+    {
+        return $this->maintainerOf;
     }
 
     public function getSlug()
