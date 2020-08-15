@@ -56,7 +56,7 @@ export const OrganizationList = (props) => (
         filters={<OrganizationFilter />}
         sort={{ field: 'name', order: 'ASC' }}
         bulkActionButtons={false}
-        title="Liste des organisations participant aux CaenCamp.s"
+        title="Liste des boites participant aux CaenCamp.s"
         perPage={25}
     >
         <Datagrid>
