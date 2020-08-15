@@ -118,22 +118,24 @@ class Person
     private $memberOf;
 
     /**
-     * @var Collection<CreativeWork>|null the CreativeWorks that the person maintains     
-     * @ORM\ManyToMany(targetEntity="App\Entity\CreativeWork", inversedBy="maintainers")
-     * @ApiProperty(iri="http://schema.org/things")
-     */
-    private $maintainerOf;
-
-    /**
      * @Gedmo\Slug(fields={"givenName", "familyName"})
      * @ORM\Column(length=300, unique=true)
      * @ApiProperty(identifier=true)
      */
     private $slug;
 
+    /**
+    * @var Collection<CreativeWork>|null the CreativeWorks that the person maintains
+    * 
+    * @ORM\ManyToMany(targetEntity="App\Entity\CreativeWork", mappedBy="maintainers")
+    * @ApiProperty(iri="http://schema.org/CreativeWork")
+    */
+    private $maintainerOf;
+
     public function __construct()
     {
         $this->memberOf = new ArrayCollection();
+        $this->maintainerOf = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -221,23 +223,36 @@ class Person
         return $this->memberOf;
     }
 
-    public function addMaintainerOf(CreativeWork $maintainerOf): void
+    public function getSlug()
     {
-        $this->maintainerOf[] = $maintainerOf;
+        return $this->slug;
     }
 
-    public function removeMaintainerOf(CreativeWork $maintainerOf): void
-    {
-        $this->maintainerOf->removeElement($maintainerOf);
-    }
-
+    /**
+     * @return Collection|CreativeWork[]
+     */
     public function getMaintainerOf(): Collection
     {
         return $this->maintainerOf;
     }
 
-    public function getSlug()
+    public function addMaintainerOf(CreativeWork $maintainerOf): self
     {
-        return $this->slug;
+        if (!$this->maintainerOf->contains($maintainerOf)) {
+            $this->maintainerOf[] = $maintainerOf;
+            $maintainerOf->addMaintainer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMaintainerOf(CreativeWork $maintainerOf): self
+    {
+        if ($this->maintainerOf->contains($maintainerOf)) {
+            $this->maintainerOf->removeElement($maintainerOf);
+            $maintainerOf->removeMaintainer($this);
+        }
+
+        return $this;
     }
 }

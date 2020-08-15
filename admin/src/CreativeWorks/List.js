@@ -7,10 +7,13 @@ import {
     TextField,
     Filter,
     TextInput,
+    ReferenceArrayField,
+    ChipField,
+    SingleFieldList,
 } from 'react-admin';
 
 const Logo = ({ record }) => {
-    return record && record.logo ? (
+    return record && record.image ? (
         <img src={record.image} height="50" alt={record.name} />
     ) : (
         `Pas de image pour "${record.name}"`
@@ -40,8 +43,16 @@ export const CreativeWorkList = (props) => (
     >
         <Datagrid>
             <Logo label="Logo" />
-            <TextField source="name" label="Nom" />
+            <TextField source="name" label="Titre" />
             <TextField source="disambiguatingDescription" label="Résumé" />
+            <TextField source="learningResourceType" label="Type de talk" />
+            <TextField source="encoding" label="Support" />
+            <TextField source="video" label="Vidéo" />
+            <ReferenceArrayField label="Mainteneurs" reference="people" source="maintainers">
+                <SingleFieldList>
+                    <ChipField source="name" />
+                </SingleFieldList>
+            </ReferenceArrayField>
             <EditButton />
         </Datagrid>
     </List>

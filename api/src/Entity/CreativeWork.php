@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * The most generic kind of creative work, including books, movies, photographs, software programs, etc.
@@ -86,14 +87,6 @@ class CreativeWork
     private $inLanguage;
 
     /**
-     * @var Person|null A maintainer of a Dataset, software package (SoftwareApplication), or other Project. A maintainer is a Person or Organization that manages contributions to, and/or publication of, some (typically complex) artifact.
-     *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Person", mappedBy="maintainerOf")
-     * @ApiProperty(iri="http://schema.org/maintainer")
-     */
-    private $maintainers;
-
-    /**
      * @var MediaObject|null A media object that encodes this CreativeWork. This property is a synonym for associatedMedia.
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\MediaObject")
@@ -108,6 +101,21 @@ class CreativeWork
      * @ApiProperty(iri="http://schema.org/video")
      */
     private $video;
+
+    /**
+    * @var Collection<Person>|null A maintainer is a Person that manages contributions to, and/or publication of, some (typically complex) artifact.
+    *
+    * @ORM\ManyToMany(targetEntity="App\Entity\Person", inversedBy="maintainerOf")
+    * @ApiProperty(iri="http://schema.org/maintainer")
+    */
+    private $maintainers;
+
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(length=300, unique=true)
+     * @ApiProperty(identifier=true)
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -205,19 +213,34 @@ class CreativeWork
         return $this->video;
     }
 
-    public function addMaintainer(Person $maintainer): void
-    {
-        $this->maintainers[] = $maintainer;
-    }
-
-    public function removeMaintainer(Person $maintainer): void
-    {
-        $this->maintainers->removeElement($maintainer);
-    }
-
+    /**
+     * @return Collection|Person[]
+     */
     public function getMaintainers(): Collection
     {
         return $this->maintainers;
     }
 
+    public function addMaintainer(Person $maintainer): self
+    {
+        if (!$this->maintainers->contains($maintainer)) {
+            $this->maintainers[] = $maintainer;
+        }
+
+        return $this;
+    }
+
+    public function removeMaintainer(Person $maintainer): self
+    {
+        if ($this->maintainers->contains($maintainer)) {
+            $this->maintainers->removeElement($maintainer);
+        }
+
+        return $this;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
+    }
 }

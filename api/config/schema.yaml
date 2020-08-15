@@ -67,7 +67,6 @@ types:
       abstract: { range: "Text" }
       image: ~
       learningResourceType: ~ # Talk, LightningTalk, coding dojo, ...
-      # creativeWorkStatus
       inLanguage: { range: "Text" }
       maintainers:
         cardinality: "(*..*)"
