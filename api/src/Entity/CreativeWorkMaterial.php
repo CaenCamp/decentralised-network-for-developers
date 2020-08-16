@@ -6,19 +6,19 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * A video file.
+ * A CreativeWorkMaterial aka media object, such as a slide, git repo, pdf ... object embedded in a web page or a downloadable dataset i.e. DataDownload. Note that a creative work may have many media objects associated with it on the same web page..
  *
- * @see http://schema.org/VideoObject Documentation on Schema.org
+ * @see http://schema.org/MediaObject Documentation on Schema.org
  *
  * @ORM\Entity
- * @ApiResource(iri="http://schema.org/VideoObject")
+ * @ApiResource(iri="http://schema.org/MediaObject")
  */
-class VideoObject
+class CreativeWorkMaterial
 {
     /**
      * @var string|null
@@ -50,31 +50,23 @@ class VideoObject
     private $contentUrl;
 
     /**
-     * @var string|null A URL pointing to a player for a specific video. In general, this is the information in the ```src``` element of an ```embed``` tag and should not be the same as the content of the ```loc``` tag.
-     *
-     * @ORM\Column(type="text", nullable=true)
-     * @ApiProperty(iri="http://schema.org/embedUrl")
-     * @Assert\Url
-     * @Groups({"talk"})
-     */
-    private $embedUrl;
-
-    /**
-     * @var Event|null The Event where the CreativeWork was recorded. The CreativeWork may capture all or part of the event.
-     *
-     * @ORM\OneToOne(targetEntity="App\Entity\Event")
-     * @ApiProperty(iri="http://schema.org/recordedAt")
-     */
-    private $recordedAt;
-
-    /**
     * @var CreativeWork|null the CreativeWork encoded by this media object
     *
-    * @ORM\ManyToOne(targetEntity="App\Entity\CreativeWork", inversedBy="videos")
+    * @ORM\ManyToOne(targetEntity="App\Entity\CreativeWork", inversedBy="materials")
     * @ORM\JoinColumn(nullable=false)
     * @ApiProperty(iri="http://schema.org/encodesCreativeWork")
     */
     private $encodesCreativeWork;
+
+    /**
+     * @var LearningResourceType|null The predominant type or kind characterizing the learning resource. For example, 'presentation', 'handout'.
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\LearningResourceType", inversedBy="creativeWorkMaterials")
+     * @ORM\JoinColumn(nullable=false)
+     * @ApiProperty(iri="http://schema.org/learningResourceType")
+     * @Groups({"talk"})
+     */
+    private $learningResourceType;
 
     public function getId(): ?string
     {
@@ -101,26 +93,6 @@ class VideoObject
         return $this->contentUrl;
     }
 
-    public function setEmbedUrl(?string $embedUrl): void
-    {
-        $this->embedUrl = $embedUrl;
-    }
-
-    public function getEmbedUrl(): ?string
-    {
-        return $this->embedUrl;
-    }
-
-    public function setRecordedAt(?Event $recordedAt): void
-    {
-        $this->recordedAt = $recordedAt;
-    }
-
-    public function getRecordedAt(): ?Event
-    {
-        return $this->recordedAt;
-    }
-
     public function getEncodesCreativeWork(): ?CreativeWork
     {
         return $this->encodesCreativeWork;
@@ -129,6 +101,18 @@ class VideoObject
     public function setEncodesCreativeWork(?CreativeWork $encodesCreativeWork): self
     {
         $this->encodesCreativeWork = $encodesCreativeWork;
+
+        return $this;
+    }
+
+    public function getLearningResourceType(): ?LearningResourceType
+    {
+        return $this->learningResourceType;
+    }
+
+    public function setLearningResourceType(?LearningResourceType $learningResourceType): self
+    {
+        $this->learningResourceType = $learningResourceType;
 
         return $this;
     }
