@@ -24,8 +24,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ApiResource(
  *  iri="http://schema.org/CreativeWork",
- *  normalizationContext={"groups"={"talk"}},
- *  denormalizationContext={"groups"={"talk"}},
  *  attributes={"order"={"name": "ASC"}}
  * )
  * @ApiFilter(

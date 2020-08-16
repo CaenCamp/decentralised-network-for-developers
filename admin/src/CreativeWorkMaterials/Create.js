@@ -1,7 +1,7 @@
 import React from 'react';
 import { Create, SimpleForm, TextInput, ReferenceInput, SelectInput, required } from 'react-admin';
 
-export const MediaCreate = (props) => (
+export const CreativeWorkMaterialCreate = (props) => (
     <Create {...props} title="Création d'un support de présentation">
         <SimpleForm>
             <TextInput
@@ -14,9 +14,9 @@ export const MediaCreate = (props) => (
                 label="Type de support"
                 source="learningResourceType"
                 reference="learning_resource_types"
-                filter={{ typeFor: 'media-object' }}
+                filter={{ typeFor: 'creativeWorkMaterial' }}
             >
-                <SelectInput optionText="name" optionValue="name" />
+                <SelectInput optionText="name" />
             </ReferenceInput>
             <TextInput
                 fullWidth

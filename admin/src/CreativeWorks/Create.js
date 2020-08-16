@@ -35,10 +35,10 @@ export const CreativeWorkCreate = (props) => (
                 label="Type de talk"
                 source="learningResourceType"
                 reference="learning_resource_types"
-                filter={{ typeFor: 'creative-work' }}
+                filter={{ typeFor: 'creativeWork' }}
                 validate={required()}
             >
-                <SelectInput optionText="name" optionValue="name" />
+                <SelectInput optionText="name" />
             </ReferenceInput>
             <TextInput
                 fullWidth
@@ -50,12 +50,6 @@ export const CreativeWorkCreate = (props) => (
                 label="Langue"
                 source="inLanguage"
             />
-            <ReferenceInput label="Support" source="encoding" reference="media_objects">
-                <SelectInput optionText="abstract" />
-            </ReferenceInput>
-            <ReferenceInput label="Vidéo" source="video" reference="video_objects">
-                <SelectInput optionText="abstract" />
-            </ReferenceInput>
             <ReferenceArrayInput label="Mainteneurs" source="maintainers" reference="people">
                 <SelectArrayInput optionText="name" />
             </ReferenceArrayInput>

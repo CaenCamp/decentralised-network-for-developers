@@ -1,6 +1,8 @@
 import React from 'react';
 import { Create, SimpleForm, TextInput, SelectInput, required } from 'react-admin';
 
+import { typeForChoices } from './index';
+
 export const LearningResourceTypeCreate = (props) => (
     <Create {...props} title="Créer un nouveau type pour les talks ou les supports">
         <SimpleForm>
@@ -16,10 +18,7 @@ export const LearningResourceTypeCreate = (props) => (
                 source="abstract"
                 validate={required()}
             />
-            <SelectInput source="typeFor" label= "Applicable à" choices={[
-                { id: 'creative-work', name: 'Talk' },
-                { id: 'media-object', name: 'Support de présentation' },
-            ]} />
+            <SelectInput source="typeFor" label= "Applicable à" choices={typeForChoices} />
         </SimpleForm>
     </Create>
 );

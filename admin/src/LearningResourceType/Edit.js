@@ -1,6 +1,8 @@
 import React from 'react';
 import { Edit, SimpleForm, TextInput, SelectInput, required } from 'react-admin';
 
+import { typeForChoices } from './index';
+
 const LearningResourceTypeTitle = ({ record }) =>
     record ? `Edition de ${record.name}` : null;
 
@@ -20,10 +22,7 @@ export const LearningResourceTypeEdit = (props) => {
                     source="abstract"
                     validate={required()}
                 />
-                <SelectInput source="typeFor" label="Applicable à" choices={[
-                    { id: 'creative-work', name: 'Talk' },
-                    { id: 'media-object', name: 'Support de présentation' },
-                ]} />
+                <SelectInput source="typeFor" label="Applicable à" choices={typeForChoices} />
             </SimpleForm>
         </Edit>
     );

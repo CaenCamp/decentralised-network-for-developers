@@ -8,7 +8,7 @@ import People from './People';
 import Places from './Places';
 import Events from './Events';
 import CreativeWork from './CreativeWorks';
-import Media from './Medias';
+import CreativeWorkMaterial from './CreativeWorkMaterials';
 import Video from './Videos';
 import LearningResourceTypes from './LearningResourceType';
 
@@ -30,7 +30,7 @@ export default () => (
         <Resource name="places" {...Places} />
         <Resource name="events" {...Events} />
         <Resource name="creative_works" {...CreativeWork} />
-        <Resource name="media_objects" {...Media} />
+        <Resource name="creative_work_materials" {...CreativeWorkMaterial} />
         <Resource name="video_objects" {...Video} />
         <Resource name="organizations" {...Organizations} />
         <Resource name="learning_resource_types" {...LearningResourceTypes} />

@@ -61,7 +61,7 @@ class LearningResourceType
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @ApiFilter(SearchFilter::class, strategy="start")
+     * @ApiFilter(SearchFilter::class, strategy="exact")
      */
     private $typeFor;
 

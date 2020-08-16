@@ -8,8 +8,10 @@ import {
     Filter,
     TextInput,
     ReferenceArrayField,
+    ReferenceManyField,
     ChipField,
     SingleFieldList,
+    ReferenceField,
 } from 'react-admin';
 
 const Logo = ({ record }) => {
@@ -45,10 +47,20 @@ export const CreativeWorkList = (props) => (
             <Logo label="Logo" />
             <TextField source="name" label="Titre" />
             <TextField source="disambiguatingDescription" label="Résumé" />
-            <TextField source="learningResourceType" label="Type de talk" />
-            <TextField source="encoding" label="Support" />
-            <TextField source="video" label="Vidéo" />
-            <ReferenceArrayField label="Mainteneurs" reference="people" source="maintainers">
+            <ReferenceField label="Type de support" source="learningResourceType" reference="learning_resource_types">
+                <TextField source="name" />
+            </ReferenceField>
+            <ReferenceManyField label="Les supports" reference="creative_work_materials" source="originId" target="encodesCreativeWork">
+                <SingleFieldList>
+                    <ChipField source="abstract" />
+                </SingleFieldList>
+            </ReferenceManyField>
+            <ReferenceManyField label="Les vidéos" reference="video_objects" source="originId" target="encodesCreativeWork">
+                <SingleFieldList>
+                    <ChipField source="abstract" />
+                </SingleFieldList>
+            </ReferenceManyField>
+            <ReferenceArrayField label="Membres" reference="people" source="maintainers">
                 <SingleFieldList>
                     <ChipField source="name" />
                 </SingleFieldList>

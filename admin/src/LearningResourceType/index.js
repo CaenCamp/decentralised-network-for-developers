@@ -3,6 +3,11 @@ import { LearningResourceTypeList } from './List';
 import { LearningResourceTypeCreate } from './Create';
 import { LearningResourceTypeEdit } from './Edit';
 
+export const typeForChoices = [
+    { id: 'creativeWork', name: 'Talk' },
+    { id: 'creativeWorkMaterial', name: 'Support de présentation' },
+];
+
 export default {
     list: LearningResourceTypeList,
     create: LearningResourceTypeCreate,

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Edit, SimpleForm, TextInput, required, ReferenceInput, SelectInput } from 'react-admin';
 
-const MediaTitle = ({ record }) =>
+const CreativeWorkMaterialTitle = ({ record }) =>
     record ? `Edition de ${record.id}` : null;
 
-export const MediaEdit = (props) => {
+export const CreativeWorkMaterialEdit = (props) => {
     return (
-        <Edit title={<MediaTitle />} {...props}>
+        <Edit title={<CreativeWorkMaterialTitle />} {...props}>
             <SimpleForm>
                 <TextInput
                     fullWidth
@@ -18,9 +18,9 @@ export const MediaEdit = (props) => {
                     label="Type de support"
                     source="learningResourceType"
                     reference="learning_resource_types"
-                    filter={{ typeFor: 'media-object' }}
+                    filter={{ typeFor: 'creativeWorkMaterial' }}
                 >
-                    <SelectInput optionText="name" optionValue="name" />
+                    <SelectInput optionText="name" />
                 </ReferenceInput>
                 <TextInput
                     fullWidth

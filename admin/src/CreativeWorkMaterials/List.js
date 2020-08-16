@@ -9,7 +9,7 @@ import {
 } from 'react-admin';
 
 
-export const MediaList = (props) => (
+export const CreativeWorkMaterialList = (props) => (
     <List
         {...props}
         sort={{ field: 'name', order: 'ASC' }}
@@ -19,7 +19,9 @@ export const MediaList = (props) => (
     >
         <Datagrid>
             <TextField source="abstract" label="Description" />
-            <TextField source="learningResourceType" label="Type de support" />
+            <ReferenceField label="Type de support" source="learningResourceType" reference="learning_resource_types">
+                <TextField source="name" />
+            </ReferenceField>
             <UrlField source="contentUrl" label="Lien" />
             <ReferenceField label="Support du talk" source="encodesCreativeWork" reference="creative_works">
                 <TextField source="name" />

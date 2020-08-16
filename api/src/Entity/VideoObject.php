@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A video file.
@@ -73,6 +76,7 @@ class VideoObject
     * @ORM\ManyToOne(targetEntity="App\Entity\CreativeWork", inversedBy="videos")
     * @ORM\JoinColumn(nullable=false)
     * @ApiProperty(iri="http://schema.org/encodesCreativeWork")
+    * @ApiFilter(SearchFilter::class, strategy="exact")
     */
     private $encodesCreativeWork;
 
