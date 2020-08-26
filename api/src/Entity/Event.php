@@ -6,9 +6,12 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Enum\EventStatusType;
 use App\Enum\EventAttendanceModeType;
+use App\Enum\EventStatusType;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -28,6 +31,7 @@ class Event
      * @ORM\GeneratedValue(strategy="UUID")
      * @ORM\Column(type="guid")
      * @Assert\Uuid
+     * @ApiProperty(identifier=false)
      */
     private $id;
 
@@ -39,6 +43,13 @@ class Event
      * @Assert\Type(type="string")
      */
     private $name;
+
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(length=300, unique=true)
+     * @ApiProperty(identifier=true)
+     */
+    private $slug;
 
     /**
      * @var string|null a description of the item
@@ -165,20 +176,36 @@ class Event
     private $sponsor;
 
     /**
-     * @var CreativeWork |null A work featured in some event, e.g. exhibited in an ExhibitionEvent. Specific subproperties are available for workPerformed (e.g. a play), or a workPresented (a Movie at a ScreeningEvent).
+     * @var Collection<VideoObject>|null the Videos that captured all or part of this Event
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\CreativeWork")
-     * @ApiProperty(iri="http://schema.org/workFeatured")
-     */
-    private $workFeatured;
-
-    /**
-     * @var VideoObject|null the CreativeWork that captured all or part of this Event
-     *
-     * @ORM\OneToOne(targetEntity="App\Entity\VideoObject")
+     * @ORM\OneToMany(
+     *      targetEntity="App\Entity\VideoObject",
+     *      mappedBy="recordedAt",
+     *      cascade={"persist"},
+     *      orphanRemoval=false
+     * )
      * @ApiProperty(iri="http://schema.org/recordedIn")
      */
     private $recordedIn;
+
+    /**
+     * @var Collection<CreativeWork>|null A work performed in some event, for example a play performed in a TheaterEvent.
+     *
+     * @ORM\ManyToMany(
+     *      targetEntity="App\Entity\CreativeWork",
+     *      inversedBy="performedInEvents",
+     *      cascade={"persist", "remove"},
+     *      orphanRemoval=true
+     * )
+     * @ApiProperty(iri="http://schema.org/workPerformed")
+     */
+    private $worksPerformed;
+
+    public function __construct()
+    {
+        $this->worksPerformed = new ArrayCollection();
+        $this->recordedIn = new ArrayCollection();
+    }
 
     public function getId(): ?string
     {
@@ -193,6 +220,11 @@ class Event
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     public function setDescription(?string $description): void
@@ -243,6 +275,16 @@ class Event
     public function getEventStatus(): ?string
     {
         return $this->eventStatus;
+    }
+
+    public function setEventAttendanceMode(?string $eventAttendanceMode): void
+    {
+        $this->eventAttendanceMode = $eventAttendanceMode;
+    }
+
+    public function getEventAttendanceMode(): ?string
+    {
+        return $this->eventAttendanceMode;
     }
 
     public function setInLanguage(?string $inLanguage): void
@@ -326,28 +368,55 @@ class Event
     }
 
     /**
-     * @param CreativeWork |null $workFeatured
+     * @return Collection|CreativeWork[]
      */
-    public function setWorkFeatured($workFeatured): void
+    public function getWorksPerformed(): Collection
     {
-        $this->workFeatured = $workFeatured;
+        return $this->workPerformed;
+    }
+
+    public function addWorksPerformed(CreativeWork $creativeWork): self
+    {
+        if (!$this->worksPerformed->contains($creativeWork)) {
+            $this->worksPerformed[] = $creativeWork;
+        }
+
+        return $this;
+    }
+
+    public function removeWorksPerformed(CreativeWork $creativeWork): self
+    {
+        if ($this->worksPerformed->contains($creativeWork)) {
+            $this->worksPerformed->removeElement($creativeWork);
+        }
+
+        return $this;
     }
 
     /**
-     * @return CreativeWork |null
+     * @return Collection|VideoObject[]
      */
-    public function getWorkFeatured()
-    {
-        return $this->workFeatured;
-    }
-
-    public function setRecordedIn(?VideoObject $recordedIn): void
-    {
-        $this->recordedIn = $recordedIn;
-    }
-
-    public function getRecordedIn(): ?VideoObject
+    public function getRecordedIn(): Collection
     {
         return $this->recordedIn;
     }
+
+    public function addRecordedIn(VideoObject $video): self
+    {
+        if (!$this->recordedIn->contains($video)) {
+            $this->recordedIn[] = $video;
+        }
+
+        return $this;
+    }
+
+    public function removeRecordedIn(VideoObject $video): self
+    {
+        if ($this->recordedIn->contains($video)) {
+            $this->recordedIn->removeElement($video);
+        }
+
+        return $this;
+    }
+
 }

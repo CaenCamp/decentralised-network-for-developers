@@ -148,11 +148,48 @@ class CreativeWork
      */
     private $learningResourceType;
 
+    /**
+     * @var Collection<Event>|null A collection of Events where the CreativeWork has been performed
+     *
+     * @ORM\ManyToMany(
+     *      targetEntity="App\Entity\Event",
+     *      inversedBy="worksPerformed"
+     * )
+     */
+    private $performedInEvents;
+
     public function __construct()
     {
         $this->maintainers = new ArrayCollection();
         $this->materials = new ArrayCollection();
         $this->videos = new ArrayCollection();
+        $this->performedIn = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getPerformedInEvents(): Collection
+    {
+        return $this->performedInEvents;
+    }
+
+    public function addPerformedInEvent(Event $event): self
+    {
+        if (!$this->performedInEvents->contains($event)) {
+            $this->performedInEvents[] = $event;
+        }
+
+        return $this;
+    }
+
+    public function removePerformedInEvent(Event $event): self
+    {
+        if ($this->performedInEvents->contains($event)) {
+            $this->performedInEvents->removeElement($event);
+        }
+
+        return $this;
     }
 
     public function getId(): ?string

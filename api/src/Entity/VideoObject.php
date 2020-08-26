@@ -65,7 +65,8 @@ class VideoObject
     /**
      * @var Event|null The Event where the CreativeWork was recorded. The CreativeWork may capture all or part of the event.
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\Event")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="recordedIn")
+     * @ORM\JoinColumn(nullable=true)
      * @ApiProperty(iri="http://schema.org/recordedAt")
      */
     private $recordedAt;
