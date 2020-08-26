@@ -7,6 +7,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Enum\EventStatusType;
+use App\Enum\EventAttendanceModeType;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -84,6 +85,16 @@ class Event
      * @Assert\Choice(callback={"EventStatusType", "toArray"})
      */
     private $eventStatus;
+
+    /**
+     * @var string|null The eventAttendanceMode of an event indicates whether it occurs online, offline, or a mix.
+     *
+     * @ORM\Column(nullable=true)
+     * @ApiProperty(iri="http://schema.org/eventAttendanceMode")
+     * @Assert\Type(type="string")
+     * @Assert\Choice(callback={"EventAttendanceModeType", "toArray"})
+     */
+    private $eventAttendanceMode;
 
     /**
      * @var string|null The language of the content or performance or used in an action. Please use one of the language codes from the \[IETF BCP 47 standard\](http://tools.ietf.org/html/bcp47). See also \[\[availableLanguage\]\].
