@@ -372,7 +372,7 @@ class Event
      */
     public function getWorksPerformed(): Collection
     {
-        return $this->workPerformed;
+        return $this->worksPerformed;
     }
 
     public function addWorksPerformed(CreativeWork $creativeWork): self

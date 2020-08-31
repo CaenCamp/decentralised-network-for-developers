@@ -1,8 +1,38 @@
 import React from 'react';
-import { Create, SimpleForm, TextInput, required } from 'react-admin';
+import { 
+    Create,
+    DateTimeInput,
+    ReferenceInput,
+    SelectArrayInput,
+    SelectInput,
+    SimpleForm,
+    TextInput,
+    ReferenceArrayInput,
+    required,
+} from 'react-admin';
+
+/*
+    private $name;
+    private $description;
+    private $disambiguatingDescription;
+    private $image;
+    private $url;
+private $eventStatus;
+private $eventAttendanceMode;
+private $inLanguage;
+private $isAccessibleForFree;
+    private $doorTime;
+    private $startDate;
+    private $endDate;
+private $location;
+private $organizer;
+private $sponsor;
+private $recordedIn;
+private $worksPerformed;
+*/
 
 export const EventCreate = (props) => (
-    <Create {...props} title="Création d'un lieu">
+    <Create {...props} title="Création d'un évènement">
         <SimpleForm>
             <TextInput
                 fullWidth
@@ -13,7 +43,7 @@ export const EventCreate = (props) => (
            <TextInput
                 fullWidth
                 label="Url de l'image"
-                source="logo"
+                source="image"
             />
             <TextInput
                 fullWidth
@@ -33,6 +63,48 @@ export const EventCreate = (props) => (
                 label="Présentation"
                 source="description"
             />
+            <DateTimeInput
+                fullWidth
+                label="Ouverture des portes"
+                source="doorTime"
+            />
+            <DateTimeInput
+                fullWidth
+                label="Début"
+                source="startDate"
+            />
+            <DateTimeInput
+                fullWidth
+                label="Fin"
+                source="endDate"
+            />
+            <ReferenceInput
+                label="Lieu"
+                source="location"
+                reference="places"
+                validate={required()}
+            >
+                <SelectInput optionText="name" />
+            </ReferenceInput>
+            <ReferenceInput
+                label="Organisateur"
+                source="organizer"
+                reference="organizations"
+                validate={required()}
+            >
+                <SelectInput optionText="name" />
+            </ReferenceInput>
+            <ReferenceInput
+                label="Sponsor"
+                source="sponsor"
+                reference="organizations"
+                validate={required()}
+            >
+                <SelectInput optionText="name" />
+            </ReferenceInput>
+            <ReferenceArrayInput label="Les talks" source="worksPerformed" reference="creative_works">
+                <SelectArrayInput optionText="name" />
+            </ReferenceArrayInput>
         </SimpleForm>
     </Create>
 );
