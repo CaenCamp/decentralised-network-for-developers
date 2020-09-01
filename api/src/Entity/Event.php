@@ -129,7 +129,7 @@ class Event
      *
      * @ORM\Column(type="datetime", nullable=true)
      * @ApiProperty(iri="http://schema.org/doorTime")
-     * @Assert\DateTime
+     * @Assert\Type(type="DateTime")
      */
     private $doorTime;
 
@@ -138,7 +138,7 @@ class Event
      *
      * @ORM\Column(type="datetime", nullable=true)
      * @ApiProperty(iri="http://schema.org/startDate")
-     * @Assert\DateTime
+     * @Assert\Type(type="DateTime")
      */
     private $startDate;
 
@@ -147,7 +147,7 @@ class Event
      *
      * @ORM\Column(type="datetime", nullable=true)
      * @ApiProperty(iri="http://schema.org/endDate")
-     * @Assert\DateTime
+     * @Assert\Type(type="DateTime")
      */
     private $endDate;
 

@@ -1,19 +1,24 @@
 import React from "react";
 import { PropTypes } from 'prop-types';
 import {
+    DateField,
     Datagrid,
     EditButton,
     List,
     TextField,
     Filter,
     TextInput,
+    ChipField,
+    ReferenceArrayField,
+    SingleFieldList,
+    ReferenceField,
 } from 'react-admin';
 
 const Logo = ({ record }) => {
     return record && record.logo ? (
         <img src={record.image} height="50" alt={record.name} />
     ) : (
-        `Pas de image pour "${record.name}"`
+        `Pas d'image pour "${record.name}"`
     );
 };
 Logo.propTypes = {
@@ -40,9 +45,19 @@ export const EventList = (props) => (
     >
         <Datagrid>
             <Logo label="Logo" />
-            <TextField source="name" label="Nom" />
-            <TextField source="disambiguatingDescription" label="Résumé" />
-            <TextField source="url" label="Site" />
+            <TextField source="name" label="Titre" />
+            <DateField source="startDate" label="Date" showTime/>
+            <ReferenceField label="Organisateur" source="organizer" reference="organizations">
+                <TextField source="name" />
+            </ReferenceField>
+            <ReferenceField label="Sponsor" source="sponsor" reference="organizations">
+                <TextField source="name" />
+            </ReferenceField>
+            <ReferenceArrayField label="Talks" reference="creative_works" source="worksPerformed">
+                <SingleFieldList>
+                    <ChipField source="name" />
+                </SingleFieldList>
+            </ReferenceArrayField>
             <EditButton />
         </Datagrid>
     </List>

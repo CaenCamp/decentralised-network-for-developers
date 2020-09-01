@@ -1,5 +1,6 @@
 import React from 'react';
 import { 
+    BooleanInput,
     Create,
     DateTimeInput,
     ReferenceInput,
@@ -11,29 +12,16 @@ import {
     required,
 } from 'react-admin';
 
-/*
-    private $name;
-    private $description;
-    private $disambiguatingDescription;
-    private $image;
-    private $url;
-private $eventStatus;
-private $eventAttendanceMode;
-private $inLanguage;
-private $isAccessibleForFree;
-    private $doorTime;
-    private $startDate;
-    private $endDate;
-private $location;
-private $organizer;
-private $sponsor;
-private $recordedIn;
-private $worksPerformed;
-*/
+const eventDefaultValue = {
+    eventStatus: 'EventScheduled',
+    eventAttendanceMode: 'OnlineEventAttendanceMode',
+    inLanguage: 'fr',
+    isAccessibleForFree: true,
+};
 
 export const EventCreate = (props) => (
     <Create {...props} title="Création d'un évènement">
-        <SimpleForm>
+        <SimpleForm initialValues={eventDefaultValue}>
             <TextInput
                 fullWidth
                 label="Nom de l'évènement"
@@ -63,6 +51,24 @@ export const EventCreate = (props) => (
                 label="Présentation"
                 source="description"
             />
+            <SelectInput source="eventStatus" label="Statut" choices={[
+                { id: 'EventScheduled', name: 'Programmé' },
+                { id: 'EventCancelled', name: 'Annulé' },
+                { id: 'EventMovedOnline', name: 'Déplacé en ligne' },
+                { id: 'EventPostponed', name: 'Reporté à plus tard' },
+                { id: 'EventRescheduled', name: 'reprogrammé' },
+            ]} />
+            <SelectInput source="eventAttendanceMode" label="Type" choices={[
+                { id: 'OnlineEventAttendanceMode', name: 'En présentiel' },
+                { id: 'OfflineEventAttendanceMode', name: 'En ligne' },
+                { id: 'MixedEventAttendanceMode', name: 'Mixte (IRL retransmit en ligne)' },
+            ]} />
+            <SelectInput source="inLanguage" label="Langue" choices={[
+                { id: 'fr', name: 'Français' },
+                { id: 'en', name: 'Anglais' },
+                { id: 'de', name: 'Allemand' },
+            ]} />
+            <BooleanInput label="Gratuit" source="isAccessibleForFree" />
             <DateTimeInput
                 fullWidth
                 label="Ouverture des portes"
