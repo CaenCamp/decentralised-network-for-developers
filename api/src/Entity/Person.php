@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -69,6 +70,7 @@ class Person
      * @var string the name of the item compose by the familyName and givenName
      *
      * @ApiProperty(iri="http://schema.org/name")
+     * @Groups({"talk"})
      */
     private $name;
 
@@ -124,9 +126,18 @@ class Person
      */
     private $slug;
 
+    /**
+    * @var Collection<CreativeWork>|null the CreativeWorks that the person maintains
+    * 
+    * @ORM\ManyToMany(targetEntity="App\Entity\CreativeWork", mappedBy="maintainers")
+    * @ApiProperty(iri="http://schema.org/CreativeWork")
+    */
+    private $maintainerOf;
+
     public function __construct()
     {
         $this->memberOf = new ArrayCollection();
+        $this->maintainerOf = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -217,5 +228,33 @@ class Person
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * @return Collection|CreativeWork[]
+     */
+    public function getMaintainerOf(): Collection
+    {
+        return $this->maintainerOf;
+    }
+
+    public function addMaintainerOf(CreativeWork $maintainerOf): self
+    {
+        if (!$this->maintainerOf->contains($maintainerOf)) {
+            $this->maintainerOf[] = $maintainerOf;
+            $maintainerOf->addMaintainer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMaintainerOf(CreativeWork $maintainerOf): self
+    {
+        if ($this->maintainerOf->contains($maintainerOf)) {
+            $this->maintainerOf->removeElement($maintainerOf);
+            $maintainerOf->removeMaintainer($this);
+        }
+
+        return $this;
     }
 }

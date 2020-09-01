@@ -3,8 +3,14 @@ import { HydraAdmin, fetchHydra, hydraDataProvider } from "@api-platform/admin";
 import { Resource } from 'react-admin';
 import { parseHydraDocumentation } from "@api-platform/api-doc-parser";
 
-import Organization from './Organizations';
+import Organizations from './Organizations';
 import People from './People';
+import Places from './Places';
+import Events from './Events';
+import CreativeWork from './CreativeWorks';
+import CreativeWorkMaterial from './CreativeWorkMaterials';
+import Video from './Videos';
+import LearningResourceTypes from './LearningResourceType';
 
 const entrypoint = process.env.REACT_APP_API_ENTRYPOINT;
 
@@ -21,6 +27,12 @@ export default () => (
         entrypoint={ entrypoint }
     >
         <Resource name="people" {...People} />
-        <Resource name="organizations" {...Organization} />
+        <Resource name="places" {...Places} />
+        <Resource name="events" {...Events} />
+        <Resource name="creative_works" {...CreativeWork} />
+        <Resource name="creative_work_materials" {...CreativeWorkMaterial} />
+        <Resource name="video_objects" {...Video} />
+        <Resource name="organizations" {...Organizations} />
+        <Resource name="learning_resource_types" {...LearningResourceTypes} />
   </HydraAdmin>
 );

@@ -27,10 +27,11 @@ Logo.propTypes = {
 };
 
 export const Address = ({ record }) => {
+    const address = record.location ? record.location.address : record.address;
     return (
         <div>
-            {record.location.address.streetAddress}<br />
-            {record.location.address.postalCode} {record.location.address.addressLocality}
+            {address.streetAddress}<br />
+            {address.postalCode} {address.addressLocality}
         </div>
     );
 };
@@ -55,7 +56,7 @@ export const OrganizationList = (props) => (
         filters={<OrganizationFilter />}
         sort={{ field: 'name', order: 'ASC' }}
         bulkActionButtons={false}
-        title="Liste des organisations participant aux CaenCamp.s"
+        title="Liste des boites participant aux CaenCamp.s"
         perPage={25}
     >
         <Datagrid>

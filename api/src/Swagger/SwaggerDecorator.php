@@ -19,8 +19,6 @@ final class SwaggerDecorator implements NormalizerInterface
         $docs = $this->decorated->normalize($object, $format, $context);
 
         // If a prefix is configured on API Platform's routes, it must appear here.
-        unset($docs['paths']['/places']);
-        unset($docs['paths']['/places/{id}']);
         unset($docs['paths']['/postal_addresses']);
         unset($docs['paths']['/postal_addresses/{id}']);
 
